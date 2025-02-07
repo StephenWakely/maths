@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Background Nature-Themed Integer Division Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #228B22; /* Forest green background */
+            color: #fff;
+        }
+        .quiz-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .question {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .answer-input {
+            font-size: 1.2em;
+            padding: 10px;
+            width: 100px;
+            margin-bottom: 20px;
+            border: 2px solid #FFD700;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        .feedback {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .correct {
+            color: #32CD32;
+        }
+        .incorrect {
+            color: #FF4500;
+        }
+        button {
+            background-color: #FFD700;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #FFA500;
+        }
+        .score {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        .wrong-answers {
+            font-size: 1em;
+            margin-top: 20px;
+            text-align: left;
+            max-height: 100px;
+            overflow-y: auto;
+            border: 1px solid #FFD700;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="question" id="question"></div>
+        <input type="number" id="answer" class="answer-input" placeholder="Your answer">
+        <button onclick="checkAnswer()">Submit</button>
+        <div class="feedback" id="feedback"></div>
+        <div class="score" id="score">Correct: 0, Incorrect: 0</div>
+        <div class="wrong-answers">
+            <strong>Wrong Answers:</strong>
+            <ul id="wrong-answers-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        let number1, number2, correctAnswer;
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let wrongAnswers = [];
+
+        function generateQuestion() {
+            const divisors = [3, 4, 5];
+            number2 = divisors[Math.floor(Math.random() * divisors.length)];
+            correctAnswer = Math.floor(Math.random() * 10) + 1; // Answer between 1 and 10
+            number1 = correctAnswer * number2;
+
+            document.getElementById('question').innerText = `What is ${number1} ÷ ${number2}?`;
+            document.getElementById('feedback').innerText = '';
+            document.getElementById('answer').value = '';
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('answer').value);
+            const feedback = document.getElementById('feedback');
+
+            if (userAnswer === correctAnswer) {
+                feedback.innerText = 'Correct!';
+                feedback.className = 'feedback correct';
+                correctCount++;
+            } else {
+                feedback.innerText = 'Incorrect. Try again!';
+                feedback.className = 'feedback incorrect';
+                incorrectCount++;
+                wrongAnswers.push(`${number1} ÷ ${number2} = ${correctAnswer}`);
+                updateWrongAnswersList();
+            }
+
+            document.getElementById('score').innerText = `Correct: ${correctCount}, Incorrect: ${incorrectCount}`;
+            setTimeout(generateQuestion, 2000);
+        }
+
+        function updateWrongAnswersList() {
+            const wrongAnswersList = document.getElementById('wrong-answers-list');
+            wrongAnswersList.innerHTML = '';
+            wrongAnswers.forEach(answer => {
+                const listItem = document.createElement('li');
+                listItem.textContent = answer;
+                wrongAnswersList.appendChild(listItem);
+            });
+        }
+
+        generateQuestion();
+    </script>
+</body>
+</html>
